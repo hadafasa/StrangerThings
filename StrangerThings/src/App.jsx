@@ -1,14 +1,24 @@
-// import { useState } from 'react'
-// import './App.css'
+import { useState, useEffect } from 'react';
+import { fetchPosts } from './services/api';
+import Post from './components/Post';
 
-// function App() {
-//   const [] = useState(0)
+function App() {
+  const [posts, setPosts] = useState([]);
 
-//   return (
-//     <>
+  useEffect(() => {
+    const loadPosts = async () => {
+      const data = await fetchPosts();
+      setPosts(data);
+    };
 
-//     </>
-//   )
-// }
+    loadPosts();
+  }, []);
 
-// export default App
+  return (
+    <div className="App">
+      {posts.map(post => <Post key={post._id} post ={post} />)}
+    </div>
+  );
+}
+
+export default App;
